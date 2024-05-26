@@ -39,3 +39,19 @@ class TestConsoleDocs(unittest.TestCase):
                          "HBNBCommand class needs a docstring")
         self.assertTrue(len(HBNBCommand.__doc__) >= 1,
                         "HBNBCommand class needs a docstring")
+
+
+class TestStorageMethods(unittest.TestCase):
+
+    def test_get(self):
+        user = User(name="Test User")
+        user.save()
+        self.assertIsNotNone(storage.get(User, user.id))
+        self.assertIsNone(storage.get(User, "nonexistent_id"))
+
+    def test_count(self):
+        initial_count = storage.count()
+        user = User(name="Test User")
+        user.save()
+        self.assertEqual(storage.count(), initial_count + 1)
+        self.assertEqual(storage.count(User), 1)
